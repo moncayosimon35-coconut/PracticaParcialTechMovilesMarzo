@@ -11,6 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.practicaparaparcial.ui.screens.Screen1
+import com.example.practicaparaparcial.ui.screens.Screen2
 import com.example.practicaparaparcial.ui.theme.PracticaParaParcialTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,30 +23,26 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            PracticaParaParcialTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            Navegacion()
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun Navegacion() {
+    val navController = rememberNavController()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PracticaParaParcialTheme {
-        Greeting("Android")
+    //creacion del navcontroler para la navegacion
+    NavHost(navController = navController, startDestination = "login") {
+        //se define la ruta de login
+        composable("login"){
+            Screen1(
+                onLoginSucess = {navController.navigate("perfil")}
+            )
+            }
+        //defio la ruta de perfil
+        composable("perfil"){
+            Screen2()
+        }
+        }
     }
-}
